@@ -1,3 +1,4 @@
+import cloudinary from "../lib/cloudinary.js"
 import { loginToken, registrationToken } from "../lib/createToken.js"
 import forgetPasswordOtp from "../lib/email-templates/forgetPasswordOtpEmail.js"
 import welcomeMail from "../lib/email-templates/welcomeEmail.js"
@@ -52,7 +53,7 @@ export const login = async (req, res) => {
 
         const { email, password } = req.body
         if (!email, !password) {
-            res.json({ success: false, message: "Fill entaire fields" })
+            return res.json({ success: false, message: "Fill entaire fields" })
         }
 
         const user = await UserModel.findOne({ email })
@@ -170,6 +171,50 @@ export const deleteUser = async (req, res) => {
         await UserModel.findByIdAndDelete(userId)
 
         res.json({ success: true, message: "user Deleted" })
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
+
+}
+
+export const updateProfile = async (req, res) => {
+
+    try {
+
+        const userId = req.userId
+
+        if (!req.file) {
+            return res.json({ success: false, message: "You Must privide a Profile Pic" })
+        }
+
+        const streamUpload = (buffer) => {
+            return new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    { folder: "profiles" },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                );
+
+                stream.end(buffer);
+            });
+        };
+
+        const upload = await streamUpload(req.file.buffer)
+
+        const user = await UserModel.findById(userId)
+        if (!user) {
+            return res.json({ success: false, message: "user not found" })
+        }
+
+        user.profilePic = upload.secure_url
+
+        await user.save()
+
+        res.json({ success: true, message: "Profile Updated", image: upload.secure_url })
 
     } catch (error) {
         console.log(error);
