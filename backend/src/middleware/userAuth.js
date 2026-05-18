@@ -6,12 +6,12 @@ const userAuth = (req, res, next) => {
 
         const { userLogin } = req.cookies
         if (!userLogin) {
-            res.json({ success: false, message: "Not Autherised login again" })
+            return res.json({ success: false, message: "Not Autherised login again" })
         }
 
         const verifyToken = jwt.verify(userLogin, process.env.JWT_SECRET)
         if (!verifyToken) {
-            res.json({ success: false, message: "something wend wrong plz login again" })
+            return res.json({ success: false, message: "something wend wrong plz login again" })
         }
 
         if (verifyToken?.id) {

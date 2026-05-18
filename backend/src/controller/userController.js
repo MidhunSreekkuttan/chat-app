@@ -1,4 +1,5 @@
 import { loginToken, registrationToken } from "../lib/createToken.js"
+import forgetPasswordOtp from "../lib/email-templates/forgetPasswordOtpEmail.js"
 import welcomeMail from "../lib/email-templates/welcomeEmail.js"
 import UserModel from "../model/userModel.js"
 import bcrypt from 'bcrypt'
@@ -75,22 +76,62 @@ export const login = async (req, res) => {
 
 }
 
+export const sendOtp = async (req, res) => {
+
+    try {
+
+        const userId = req.userId
+
+        const user = await UserModel.findById(userId)
+        if (!user) {
+            return res.json({ success: false, message: "user not found" })
+        }
+
+        const OTP = Math.floor(100000 + Math.random() * 900000);
+
+        user.verifyOtp = OTP
+
+        await user.save()
+        await forgetPasswordOtp(OTP, user.email)
+
+        res.json({ success: true, message: "Otp send" })
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
+
+}
+
 export const forgetPassword = async (req, res) => {
 
     try {
 
         const userId = req.userId
-        const { password } = req.body
+        const { otp, password } = req.body
+
+        if (!otp) {
+            return res.json({ success: false, message: "plz enter Otp" })
+        }
+
         if (!password) {
             return res.json({ success: false, message: "Plz enter Password" })
         }
 
         const hashPass = await bcrypt.hash(password, 10)
 
-        const user = await UserModel.findByIdAndUpdate(userId, { password: hashPass })
+        const user = await UserModel.findById(userId)
         if (!user) {
             res.json({ success: false, message: "user not found" })
         }
+
+        if (otp != user.verifyOtp) {
+            return res.json({ success: false, message: "Otp is incorrect" })
+        }
+        user.password = hashPass
+        user.verifyOtp = ""
+
+        await user.save()
 
         res.json({ success: true, message: "Password updated" })
 
@@ -105,7 +146,7 @@ export const logout = async (_, res) => {
 
     try {
 
-        res.clearCookie("UserLogin", {
+        res.clearCookie("userLogin", {
             httpOnly: true,
             sameSite: true,
             secure: process.env.NODE_ENV === "production" ? true : false
