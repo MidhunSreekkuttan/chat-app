@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 
-const userAuth = async (req, res, next) => {
+const userAuth = (req, res, next) => {
 
     try {
 
@@ -9,12 +9,12 @@ const userAuth = async (req, res, next) => {
             res.json({ success: false, message: "Not Autherised login again" })
         }
 
-        const verifyToken = await jwt.verify(userLogin, process.env.JWT_SECRET)
+        const verifyToken = jwt.verify(userLogin, process.env.JWT_SECRET)
         if (!verifyToken) {
             res.json({ success: false, message: "something wend wrong plz login again" })
         }
 
-        if (verifyToken.id) {
+        if (verifyToken?.id) {
             req.userId = verifyToken.id
         }
 

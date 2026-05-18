@@ -75,6 +75,32 @@ export const login = async (req, res) => {
 
 }
 
+export const forgetPassword = async (req, res) => {
+
+    try {
+
+        const userId = req.userId
+        const { password } = req.body
+        if (!password) {
+            return res.json({ success: false, message: "Plz enter Password" })
+        }
+
+        const hashPass = await bcrypt.hash(password, 10)
+
+        const user = await UserModel.findByIdAndUpdate(userId, { password: hashPass })
+        if (!user) {
+            res.json({ success: false, message: "user not found" })
+        }
+
+        res.json({ success: true, message: "Password updated" })
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
+
+}
+
 export const logout = async (_, res) => {
 
     try {

@@ -25,7 +25,7 @@ export const loginToken = async (userId, res) => {
 
         const token = await jwt.sign({ id: userId }, process.env.JWT_SECRET)
 
-        res.cookie("UserLogin", token, {
+        res.cookie("userLogin", token, {
             httpOnly: true,
             sameSite: true,
             secure: process.env.NODE_ENV === "production" ? true : false
