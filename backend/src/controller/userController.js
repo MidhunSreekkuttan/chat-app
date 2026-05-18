@@ -1,3 +1,4 @@
+import { loginToken, registrationToken } from "../lib/createToken.js"
 import welcomeMail from "../lib/email-templates/welcomeEmail.js"
 import UserModel from "../model/userModel.js"
 import bcrypt from 'bcrypt'
@@ -25,6 +26,8 @@ export const registration = async (req, res) => {
 
         try {
 
+            await registrationToken(user._id, res)
+
             await welcomeMail(user.name, user.email)
 
         } catch (error) {
@@ -42,7 +45,35 @@ export const registration = async (req, res) => {
     }
 }
 
-export const login = async (req, res) => { }
+export const login = async (req, res) => {
+
+    try {
+
+        const { email, password } = req.body
+        if (!email, !password) {
+            res.json({ success: false, message: "Fill entaire fields" })
+        }
+
+        const user = await UserModel.findOne({ email })
+        if (!user) {
+            return res.json({ success: false, message: "User not found" })
+        }
+
+        const verifypass = await bcrypt.compare(password, user.password)
+        if (!verifypass) {
+            return res.json({ success: false, message: "Incorrect password" })
+        }
+
+        await loginToken(user._id, res)
+
+        res.json({ success: true, message: "User loggedIn" })
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
+
+}
 
 export const logout = async (req, res) => { }
 
@@ -50,7 +81,7 @@ export const deleteUser = async (req, res) => {
 
     try {
 
-        const {userId} = req.body
+        const { userId } = req.body
 
         await UserModel.findByIdAndDelete(userId)
 
