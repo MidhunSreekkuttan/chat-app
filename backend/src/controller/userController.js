@@ -75,7 +75,24 @@ export const login = async (req, res) => {
 
 }
 
-export const logout = async (req, res) => { }
+export const logout = async (_, res) => {
+
+    try {
+
+        res.clearCookie("UserLogin", {
+            httpOnly: true,
+            sameSite: true,
+            secure: process.env.NODE_ENV === "production" ? true : false
+        })
+
+        res.json({ success: true, message: "User logged Out" })
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
+
+}
 
 export const deleteUser = async (req, res) => {
 
