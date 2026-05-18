@@ -5,6 +5,7 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import connectDB from './lib/connectDB.js'
 import userRouter from './routes/userRouter.js'
+import messageRouter from './routes/messageRouter.js'
 
 dns.setServers(["1.1.1.1", "8.8.8.8"])
 
@@ -18,6 +19,7 @@ app.use(cookieParser())
 
 //api end points
 app.use("/api/user", userRouter) // api end point for user
+app.use("/api/messages", messageRouter) // api end point for messages
 
 //make ready for deployment
 const __dirname = path.resolve()
