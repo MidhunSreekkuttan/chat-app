@@ -13,4 +13,8 @@ userRouter.post("/logout", logout)
 userRouter.post("/deleteUser", deleteUser)
 userRouter.put("/updateProfile", userAuth, upload.single("profilePic"), updateProfile)
 
+userRouter.get("/userAuth", userAuth, async (req, res) => {
+    res.json({ success: true, user: req.userId })
+})
+
 export default userRouter
