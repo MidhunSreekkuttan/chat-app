@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import Layout from './lib/layout'
@@ -10,7 +10,7 @@ const App = () => {
 
   const { authState, isLoading } = useContext(UserContext);
 
-  const protectedRoute = () => {
+  const protectedRoute = useCallback(() => {
 
     if (isLoading) {
       return <div>Loading...</div>;
@@ -21,7 +21,8 @@ const App = () => {
     }
 
     return <Outlet />;
-  };
+
+  }, [authState, isLoading])
 
   return (
     <>
