@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser'
 import connectDB from './lib/connectDB.js'
 import userRouter from './routes/userRouter.js'
 import messageRouter from './routes/messageRouter.js'
+import cors from "cors"
 
 dns.setServers(["1.1.1.1", "8.8.8.8"])
 
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 3000
 //midleware
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }))
 
 //api end points
 app.use("/api/user", userRouter) // api end point for user
