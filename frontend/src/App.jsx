@@ -8,13 +8,20 @@ import { UserContext } from './lib/UserContext'
 
 const App = () => {
 
-  const { authState } = useContext(UserContext)
+  const { authState, isLoading } = useContext(UserContext);
 
   const protectedRoute = () => {
-    if (!authState) {
-      return <Navigate to="/login" />
+
+    if (isLoading) {
+      return <div>Loading...</div>;
     }
-  }
+
+    if (!authState) {
+      return <Navigate to="/login" replace />;
+    }
+
+    return <Outlet />;
+  };
 
   return (
     <>

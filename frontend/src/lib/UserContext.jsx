@@ -13,17 +13,18 @@ const UserContextProvider = ({ children }) => {
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
-    const [authState, setAuthState] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
+    const [authState, setAuthState] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     const checkUserAuth = useCallback(async () => {
 
         try {
-            setIsLoading(true)
 
             const { data } = await axios.get(backendUrl + "/api/user/userAuth")
             if (data.success) {
-                setAuthState(data?.user)
+                setAuthState(true)
+            } else {
+                setAuthState(false)
             }
 
         } catch (error) {
