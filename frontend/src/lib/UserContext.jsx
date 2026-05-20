@@ -38,7 +38,7 @@ const UserContextProvider = ({ children }) => {
     const values = useMemo(() => ({
 
         axiosInstance,
-        authState,
+        authState, setAuthState,
         isLoading,
 
     }), [axiosInstance, authState, isLoading])

@@ -2,7 +2,7 @@ import sendingMaile from "../nodeMailer.js"
 
 function welcomeMail(name, to) {
 
-    const html = `
+  const html = `
 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +58,7 @@ function welcomeMail(name, to) {
               <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin:35px auto;">
                 <tr>
                   <td align="center" bgcolor="#4f46e5" style="border-radius:8px;">
-                    <a href="https://yourapp.com"
+                    <a href="http://localhost:5100"
                       style="display:inline-block;padding:14px 32px;font-size:16px;color:#ffffff;text-decoration:none;font-weight:bold;">
                       Start Chatting
                     </a>
@@ -94,12 +94,12 @@ function welcomeMail(name, to) {
 </html>
 
 `
-    return sendingMaile.sendMail({
-        from: `"Chat App" <${process.env.NO_REPLAY_EMAIL}>`,
-        to,
-        subject: "Welcome To Chat App",
-        html
-    })
+  return sendingMaile.sendMail({
+    from: `"Chat App" <${process.env.NO_REPLAY_EMAIL}>`,
+    to,
+    subject: "Welcome To Chat App",
+    html
+  })
 
 }
 

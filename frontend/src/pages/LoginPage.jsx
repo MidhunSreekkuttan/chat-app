@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Eye, EyeOff, Loader } from 'lucide-react';
 import { toast } from 'react-hot-toast'
 import axiosInstance from '../lib/axiosInstance';
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../lib/UserContext';
 
 const LoginPage = () => {
 
   const navigate = useNavigate()
+
+  const { setAuthState } = useContext(UserContext)
 
   const [state, setState] = useState("login")
   const [showPassword, setShowPassword] = useState("password")
@@ -36,6 +39,7 @@ const LoginPage = () => {
 
         const { data } = await axiosInstance.post("/api/user/login", formData)
         if (data.success) {
+          setAuthState(true)
           toast.success(data.message)
           navigate('/')
         } else {

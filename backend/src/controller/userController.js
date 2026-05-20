@@ -9,8 +9,8 @@ export const registration = async (req, res) => {
     try {
 
         const { name, email, password } = req.body
-        if (!name, !email, !password) {
-            res.json({ success: false, message: "You must enter all input field" })
+        if (!name || !email || !password) {
+            return res.json({ success: false, message: "You must enter all input field" })
         }
 
         const existUser = await UserModel.findOne({ email })
@@ -52,7 +52,7 @@ export const login = async (req, res) => {
     try {
 
         const { email, password } = req.body
-        if (!email, !password) {
+        if (!email || !password) {
             return res.json({ success: false, message: "Fill entaire fields" })
         }
 
