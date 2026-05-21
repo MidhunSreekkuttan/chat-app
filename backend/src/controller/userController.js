@@ -4,6 +4,7 @@ import forgetPasswordOtp from "../lib/email-templates/forgetPasswordOtpEmail.js"
 import welcomeMail from "../lib/email-templates/welcomeEmail.js"
 import UserModel from "../model/userModel.js"
 import bcrypt from 'bcrypt'
+import validator from 'validator'
 
 export const registration = async (req, res) => {
     try {
@@ -11,6 +12,33 @@ export const registration = async (req, res) => {
         const { name, email, password } = req.body
         if (!name || !email || !password) {
             return res.json({ success: false, message: "You must enter all input field" })
+        }
+
+        // Email validation
+
+        if (!validator.isEmail(email, {
+            allow_underscores: false,
+            allow_utf8_local_part: false,
+            host_whitelist: ["gmail.com", "outlook.com"],
+        })) {
+            return res.json({ success: false, message: "Invalid Email" })
+        }
+
+        // Password validation
+        if (password.length < 8) {
+            return res.json({ success: false, message: "Password Must have 8 charectors" })
+        }
+        if (!/[A-Z]/.test(password)) {
+            return res.json({ success: false, message: "Password must have alteast one upperCase charector" })
+        }
+        if (!/[a-z]/.test(password)) {
+            return res.json({ success: false, message: "Password must have alteast one lowerCase charector" })
+        }
+        if (!/[0-9]/.test(password) || password.match(/[0-9]/g).length < 3) {
+            return res.json({ success: false, message: "Password must have alteast three numbers" })
+        }
+        if (!/[!@#$%^&*]/.test(password)) {
+            return res.json({ success: false, message: "Password must have alteast one symbol" })
         }
 
         const existUser = await UserModel.findOne({ email })
