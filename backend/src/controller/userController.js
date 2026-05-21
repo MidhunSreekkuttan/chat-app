@@ -250,3 +250,29 @@ export const updateProfile = async (req, res) => {
     }
 
 }
+
+export const authUser = async (req, res) => {
+
+    try {
+
+        const userId = req.userId
+
+        const user = await UserModel.findById(userId)
+        if (!user) {
+            return res.json({ success: false, message: "user not found" })
+        }
+
+        res.json({
+            success: true, userData: {
+                id: user._id,
+                name: user.name,
+                profilePic: user.profilePic
+            }
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
+
+}

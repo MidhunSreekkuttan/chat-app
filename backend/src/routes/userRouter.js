@@ -1,5 +1,5 @@
 import express from 'express'
-import { deleteUser, forgetPassword, login, logout, registration, sendOtp, updateProfile } from '../controller/userController.js'
+import { authUser, deleteUser, forgetPassword, login, logout, registration, sendOtp, updateProfile } from '../controller/userController.js'
 import userAuth from '../middleware/userAuth.js'
 import upload from '../middleware/multer.js'
 
@@ -13,8 +13,8 @@ userRouter.post("/logout", logout)
 userRouter.post("/deleteUser", deleteUser)
 userRouter.put("/updateProfile", userAuth, upload.single("profilePic"), updateProfile)
 
-userRouter.get("/userAuth", userAuth, async (_, res) => {
-    res.json({ success: true })
-})
+userRouter.get("/userAuth", userAuth, (_, res) => { res.json({ success: true }) })
+
+userRouter.get("/userData", userAuth, authUser)
 
 export default userRouter

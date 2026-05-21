@@ -13,8 +13,10 @@ axios.defaults.withCredentials = true
 const UserContextProvider = ({ children }) => {
 
     const [authState, setAuthState] = useState(false)
+    const [userData, setUserData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
+    // check user is logged in or not
     const checkUserAuth = useCallback(async () => {
 
         try {
@@ -35,13 +37,59 @@ const UserContextProvider = ({ children }) => {
 
     }, [axiosInstance])
 
+    //get userData
+    const getUserData = useCallback(async () => {
+
+        try {
+
+            const { data } = await axiosInstance.get("/api/user/userData")
+            if (data.success) {
+                setUserData(data.userData)
+            } else {
+                toast.error(data.message)
+                return []
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message)
+        }
+        finally {
+            setIsLoading(false)
+        }
+
+    }, [axiosInstance])
+
+    // user logout
+    const logout = useCallback(async () => {
+
+        try {
+
+            const { data } = await axiosInstance.post("/api/user/logout")
+            if (data.success) {
+                setAuthState(false)
+                toast.success(data.message)
+            } else {
+                toast.error(data.messagef)
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message)
+        }
+
+    }, [axiosInstance])
+
     const values = useMemo(() => ({
 
         axiosInstance,
         authState, setAuthState,
         isLoading,
+        logout,
+        userData,
+        getUserData
 
-    }), [axiosInstance, authState, isLoading])
+    }), [axiosInstance, authState, isLoading, logout, userData, getUserData])
 
     useEffect(() => {
         checkUserAuth()
