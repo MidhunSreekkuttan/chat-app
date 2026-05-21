@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Eye, EyeOff, Loader } from 'lucide-react';
+import { Eye, EyeOff, Loader, Mail, Lock, User, ArrowBigRightDash } from 'lucide-react';
 import { toast } from 'react-hot-toast'
 import axiosInstance from '../lib/axiosInstance';
 import { useNavigate } from 'react-router-dom'
@@ -89,107 +89,270 @@ const LoginPage = () => {
 
   return (
 
-    <div className="w-screen h-screen flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-black flex items-center justify-center p-8 overflow-hidden relative">
 
-      <div className="bg-black/10 px-8 py-10">
+      {/* Background Glow */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600 blur-[180px] opacity-30 rounded-full" />
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-600 blur-[180px] opacity-30 rounded-full" />
 
-        <div>
-          <h1 className='text-2xl font-bold text-center'>
-            {state === "login" ? "Login Form" : "SignUp Form"}
-          </h1>
-          <hr />
+      {/* Main Card */}
+      <div
+        className="
+          relative
+          w-full
+          max-w-6xl
+          h-fit
+          rounded-[40px]
+          overflow-hidden
+          border
+          border-white/20
+          backdrop-blur-xl
+          bg-white/5
+          shadow-[0_0_40px_rgba(255,255,255,0.08)]
+        "
+      >
+
+        {/* Outer Neon Border */}
+        <div className="absolute inset-0 rounded-[40px]">
+          <div className="absolute left-0 top-0 h-full w-1 bg-blue-500 shadow-[0_0_25px_5px_#3b82f6]" />
+          <div className="absolute right-0 top-0 h-full w-1 bg-red-500 shadow-[0_0_25px_5px_#ef4444]" />
         </div>
 
-        <form onSubmit={submitHandler} className='flex flex-col gap-3 mt-5'>
+        <div className="grid lg:grid-cols-2 h-full">
 
-          {state === "signUp" && (
-            <Form label="Name:" type="text" name={"name"} value={formData.name} onChange={onChangeHandler} />
-          )}
+          {/* LEFT SIDE */}
+          <div className="relative flex flex-col justify-center items-center px-12 overflow-hidden">
 
-          <Form label={"Email:"} type={"email"} name={"email"} value={formData.email} onChange={onChangeHandler} />
+            {/* Blue Glow */}
+            <div className="absolute inset-0 bg-blue-500/10" />
+            <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500 blur-[140px] opacity-40 rounded-full" />
 
-          <div className='flex'>
-            <label>Password:</label>
-            <div className='flex gap-5 bg-white/50'>
-              <input
-                name='password'
-                value={formData.password}
-                onChange={onChangeHandler}
-                className='w-full outline-none' type={showPassword === "password" ? "password" : "text"} />
-              {showPassword === "password" ? (
-                <>
-                  <Eye onClick={() => setShowPassword("text")} className='relative right-2 cursor-pointer' />
-                </>
-              ) : (
-                <>
-                  <EyeOff onClick={() => setShowPassword("password")} className='relative right-2 cursor-pointer' />
-                </>
-              )}
-            </div>
-          </div>
-
-          <button disabled={isLoading}
-            className={`mt-3 bg-amber-400 w-full rounded-lg py-1 font-semibold 
-                ${isLoading ? "cursor-no-drop" : "cursor-pointer"} ${isLoading && "opacity-50"} 
-                ${!isLoading && " transition-transform active:scale-95"} `} >
-
-            {isLoading ? (
-              <div className='flex justify-center items-center'>
-                <h1>Loading...</h1>
-                <Loader className='animate-spin' />
+            <div className="relative z-10 text-center">
+              <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-blue-400 to-red-500 flex items-center justify-center text-3xl font-bold">
+                ⚡
               </div>
-            ) : (
-              <>
-                Submits
-              </>
-            )}
-          </button>
 
-          {state === "login" && (
-            <div className='text-right'>
-              <h2 className='underline cursor-pointer text-sm text-blue-800'>Forget Password</h2>
-            </div>
-          )}
+              <h1 className="mt-8 text-6xl font-black uppercase tracking-widest text-white">
+                Welcome
+              </h1>
 
-          <div>
-            <h2 className='text-sm flex'>
-              {state === "login" ? (
-                "You Don't have an account:"
-              ) : (
-                "You Already have an account:"
+              {state === "login" && (
+                <h2 className="text-6xl font-black uppercase tracking-widest bg-gradient-to-r from-blue-400 to-red-500 bg-clip-text text-transparent">
+                  Back
+                </h2>
               )}
-              <span className='underline cursor-pointer text-blue-800'>
+
+              <p className="mt-4 text-gray-400">
                 {state === "login" ? (
-                  <>
-                    <h1 onClick={() => setState("signUp")}>SignUp</h1>
-                  </>
+                  "Glad to see you again!"
                 ) : (
-                  <>
-                    <h1 onClick={() => setState("login")}>Login</h1>
-                  </>
+                  "Glad to see you"
                 )}
-              </span>
-            </h2>
+              </p>
+            </div>
           </div>
 
-        </form>
+          {/* RIGHT SIDE */}
+          <div className="relative flex items-center justify-center p-12">
 
+            {/* Red Glow */}
+            <div className="absolute inset-0 bg-red-500/5" />
+            <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-96 h-96 bg-red-500 blur-[140px] opacity-40 rounded-full" />
+
+            <form onSubmit={submitHandler} className="relative z-10 w-full max-w-md">
+
+              <h2 className="text-4xl font-bold text-white">
+                {state === 'login' ? (
+                  "Login"
+                ) : (
+                  "SignUp"
+                )}
+              </h2>
+
+              <p className="text-gray-400 mt-2">
+                Enter your credentials to continue
+              </p>
+
+              {/* Name */}
+              {state === "signUp" && (
+                <div className="mt-5 relative">
+                  <User
+                    size={18}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  />
+
+                  <input
+                    name='name'
+                    value={formData.name}
+                    onChange={onChangeHandler}
+                    type="text"
+                    placeholder="Name or Username"
+                    className="
+                    w-full
+                    bg-white/5
+                    border border-white/10
+                    rounded-xl
+                    pl-12
+                    pr-4
+                    py-4
+                    text-white
+                    outline-none
+                    focus:border-blue-500
+                    backdrop-blur-md
+                  "
+                  />
+                </div>
+              )}
+
+              {/* Email */}
+              <div className="mt-5 relative">
+                <Mail
+                  size={18}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                />
+
+                <input
+                  name='email'
+                  value={formData.email}
+                  onChange={onChangeHandler}
+                  type="email"
+                  placeholder="Email or Username"
+                  className="
+                    w-full
+                    bg-white/5
+                    border border-white/10
+                    rounded-xl
+                    pl-12
+                    pr-4
+                    py-4
+                    text-white
+                    outline-none
+                    focus:border-blue-500
+                    backdrop-blur-md
+                  "
+                />
+              </div>
+
+              {/* Password */}
+              <div className="mt-5 relative">
+                <Lock
+                  size={18}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                />
+
+                <input
+                  name='password'
+                  value={formData.password}
+                  onChange={onChangeHandler}
+                  type={showPassword === "password" ? "password" : "text"}
+                  placeholder="Password"
+                  className="
+                    w-full
+                    bg-white/5
+                    border border-white/10
+                    rounded-xl
+                    pl-12
+                    pr-12
+                    py-4
+                    text-white
+                    outline-none
+                    focus:border-red-500
+                    backdrop-blur-md
+                  "
+                />
+
+                {showPassword === "password" ? (
+                  <Eye
+                    onClick={() => setShowPassword("text")}
+                    size={18}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+                  />
+                ) : (
+                  <EyeOff
+                    onClick={() => setShowPassword("password")}
+                    size={18}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+                  />
+                )}
+              </div>
+
+              {/* Forget */}
+              <div className="flex mt-5  text-sm">
+
+                <button type='button' className="text-red-400 hover:text-red-300">
+                  Forgot password?
+                </button>
+              </div>
+
+              {/* Button */}
+              <button
+                className="
+                 group
+                  w-full
+                  mt-8
+                  py-4
+                  rounded-xl
+                  text-white
+                  font-semibold
+                  bg-gradient-to-r
+                  from-blue-500
+                  to-red-500
+                  shadow-[0_0_30px_rgba(99,102,241,0.6)]
+                  active:scale-98
+                  transition
+                "
+              >
+                {state === "login" ? (
+                  <h2>
+                    {isLoading ? (
+                      <span className='flex justify-center items-center'>
+                        Loading...
+                        <Loader className='animate-spin' />
+                      </span>
+                    ) : (
+                      <span className='flex justify-center gap-1'>
+                        SIGN IN <ArrowBigRightDash className=' transition-all duration-300 group-hover:translate-x-2' />
+                      </span>
+                    )}
+                  </h2>
+                ) : (
+                  <h2>
+                    {isLoading ? (
+                      <span className='flex justify-center items-center'>
+                        Loading...
+                        <Loader className='animate-spin' />
+                      </span>
+                    ) : (
+                      <span className='flex justify-center gap-1'>
+                        SIGN Up <ArrowBigRightDash className=' transition-all duration-300 group-hover:translate-x-2' />
+                      </span>
+                    )}
+                  </h2>
+                )}
+              </button>
+
+              {state === "login" ? (
+                <p className="mt-8 text-center text-gray-400">
+                  Don't have an account?
+                  <span onClick={() => setState("signUp")} className="text-red-400 ml-2 cursor-pointer">
+                    Sign Up
+                  </span>
+                </p>
+              ) : (
+                <p className="mt-8 text-center text-gray-400">
+                  Already have an account?
+                  <span onClick={() => setState("login")} className="text-red-400 ml-2 cursor-pointer">
+                    Login
+                  </span>
+                </p>
+              )}
+            </form>
+          </div>
+
+        </div>
       </div>
-
     </div>
 
   )
 }
-
-function Form({ label, type, ...prop }) {
-  return (
-    <>
-      <div className='flex'>
-        <label>{label}</label>
-        <input {...prop} className='bg-white/50 w-full outline-none' type={type} />
-      </div>
-    </>
-  )
-}
-
 export default LoginPage
