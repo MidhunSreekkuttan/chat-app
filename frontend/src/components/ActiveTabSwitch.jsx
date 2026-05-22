@@ -5,12 +5,12 @@ const ActiveTabSwitch = ({ activeTab, setActiveTab }) => {
     <div className='relative flex justify-between gap-2 p-2'>
 
       <button onClick={() => setActiveTab("chats")}
-        className={`w-full p-2 text-center rounded-md ${activeTab === "chats" ? "bg-amber-700 text-slate-300" : ""}`}>
+        className={`w-full p-2 text-center rounded-md text-white ${activeTab === "chats" ? "bg-blue-600" : ""}`}>
         Chats
       </button>
 
       <button onClick={() => setActiveTab("contacts")}
-        className={`w-full p-2 text-center rounded-md ${activeTab === "contacts" ? "bg-amber-700 text-slate-300" : ""}`}>
+        className={`w-full p-2 text-center rounded-md text-white ${activeTab === "contacts" ? "bg-blue-600" : ""}`}>
         Contacts
       </button>
 

@@ -12,8 +12,8 @@ const ChatPage = () => {
   const [seletedUser, setSeletedUser] = useState(null)
 
   return (
-    <div className='relative flex min-w-screen min-h-screen justify-center items-center'>
-      <div className='flex w-6xl h-[700px] p-4 bg-amber-200 rounded-2xl'>
+    <div className='relative flex min-w-screen min-h-screen justify-center items-center text-white'>
+      <div className='flex w-6xl h-[700px] p-4 bg-slate-900 rounded-2xl'>
 
         {/* Left Side */}
         <div className='flex flex-col w-80 h-full bg-slate-800/80 backdrop-blur-sm rounded-l-lg'>
@@ -30,7 +30,7 @@ const ChatPage = () => {
         </div>
 
         {/* Right Side */}
-        <div className='flex flex-1 flex-col w-full h-full bg-slate-800/50 backdrop-blur-sm rounded-r-lg'>
+        <div className='flex flex-1 flex-col w-full h-full bg-slate-900 backdrop-blur-sm rounded-r-lg'>
           {seletedUser ? <ChatContainer key={seletedUser} seletedUser={seletedUser} /> : <NoConversationPlaceholder />}
         </div>
 
