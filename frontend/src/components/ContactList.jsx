@@ -3,7 +3,7 @@ import axiosInstance from '../lib/axiosInstance';
 import { toast } from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 
-const ContactList = ({ seletedUser, setSeletedUser }) => {
+const ContactList = ({ setSeletedUser }) => {
 
   const getAllContacts = useCallback(async () => {
 
@@ -39,7 +39,7 @@ const ContactList = ({ seletedUser, setSeletedUser }) => {
             key={item._id || index}
             className='flex items-center gap-5 w-full p-3 border border-slate-700 rounded-lg hover:bg-slate-700/50
              cursor-pointer transition-colors'
-            onClick={() => setSeletedUser(seletedUser ? null : item?._id)}
+            onClick={() => setSeletedUser(item?._id)}
 
           >
 

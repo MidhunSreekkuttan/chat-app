@@ -30,6 +30,9 @@ const ChatContainer = ({ seletedUser }) => {
     enabled: !!seletedUser
   })
 
+  console.log(data);
+  
+
   if (error) return <div>Error:{error.message}</div>
 
   return (
