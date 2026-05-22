@@ -109,9 +109,9 @@ export const sendOtp = async (req, res) => {
 
     try {
 
-        const userId = req.userId
+        const { email } = req.body
 
-        const user = await UserModel.findById(userId)
+        const user = await UserModel.findOne({ email })
         if (!user) {
             return res.json({ success: false, message: "user not found" })
         }
@@ -136,8 +136,24 @@ export const forgetPassword = async (req, res) => {
 
     try {
 
-        const userId = req.userId
-        const { otp, password } = req.body
+        const { email, otp, password } = req.body
+
+        // Password validation
+        if (password.length < 8) {
+            return res.json({ success: false, message: "Password Must have 8 charectors" })
+        }
+        if (!/[A-Z]/.test(password)) {
+            return res.json({ success: false, message: "Password must have alteast one upperCase charector" })
+        }
+        if (!/[a-z]/.test(password)) {
+            return res.json({ success: false, message: "Password must have alteast one lowerCase charector" })
+        }
+        if (!/[0-9]/.test(password) || password.match(/[0-9]/g).length < 3) {
+            return res.json({ success: false, message: "Password must have alteast three numbers" })
+        }
+        if (!/[!@#$%^&*]/.test(password)) {
+            return res.json({ success: false, message: "Password must have alteast one symbol" })
+        }
 
         if (!otp) {
             return res.json({ success: false, message: "plz enter Otp" })
@@ -149,12 +165,12 @@ export const forgetPassword = async (req, res) => {
 
         const hashPass = await bcrypt.hash(password, 10)
 
-        const user = await UserModel.findById(userId)
+        const user = await UserModel.findOne({ email })
         if (!user) {
             res.json({ success: false, message: "user not found" })
         }
 
-        if (otp != user.verifyOtp) {
+        if (otp !== user.verifyOtp) {
             return res.json({ success: false, message: "Otp is incorrect" })
         }
         user.password = hashPass
