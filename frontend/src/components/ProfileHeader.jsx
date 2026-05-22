@@ -10,8 +10,6 @@ const ProfileHeader = () => {
   const [selectedImg, setSelectedImg] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  console.log(userData);
-
   const fileInputRef = useRef(null)
 
   const handleImageUpload = async (e) => {
