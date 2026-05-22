@@ -3,7 +3,7 @@ import axiosInstance from '../lib/axiosInstance';
 import { toast } from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 
-const ContactList = ({ setSeletedUser }) => {
+const ContactList = ({ seletedUser, setSeletedUser }) => {
 
   const getAllContacts = useCallback(async () => {
 
@@ -29,9 +29,6 @@ const ContactList = ({ setSeletedUser }) => {
     queryFn: getAllContacts
   })
 
-  console.log(data);
-
-
   return (
     <div className='flex flex-col gap-2 w-full'>
 
@@ -42,7 +39,7 @@ const ContactList = ({ setSeletedUser }) => {
             key={item._id || index}
             className='flex items-center gap-5 w-full p-3 border border-slate-700 rounded-lg hover:bg-slate-700/50
              cursor-pointer transition-colors'
-            onClick={() => setSeletedUser(item)}
+            onClick={() => setSeletedUser(seletedUser ? null : item?._id)}
 
           >
 
