@@ -3,7 +3,7 @@ import axiosInstance from '../lib/axiosInstance';
 import { toast } from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 
-const ChatList = ({ setSeletedUser }) => {
+const ChatList = ({ seletedUser, setSeletedUser }) => {
 
   const getChatData = async () => {
     try {
@@ -23,7 +23,7 @@ const ChatList = ({ setSeletedUser }) => {
     queryKey: ["ChatData"],
     queryFn: getChatData
   });
-  
+
   if (error) return <div className="p-4 text-center text-red-500">Error: {error.message}</div>;
 
   return (
@@ -37,7 +37,7 @@ const ChatList = ({ setSeletedUser }) => {
             key={item._id || index}
             className='flex items-center gap-5 w-full p-3 border border-slate-700 rounded-lg hover:bg-slate-700/50
              cursor-pointer transition-colors'
-            onClick={() => setSeletedUser(item?._id)}
+            onClick={() => setSeletedUser(seletedUser ? null : item?._id)}
 
           >
 
