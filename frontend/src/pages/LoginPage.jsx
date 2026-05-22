@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { Eye, EyeOff, Loader, Mail, Lock, User, ArrowBigRightDash } from 'lucide-react';
 import { toast } from 'react-hot-toast'
 import axiosInstance from '../lib/axiosInstance';
@@ -279,7 +279,7 @@ const LoginPage = () => {
               {/* Forget */}
               <div className="flex mt-5  text-sm">
 
-                <button type='button' className="text-red-400 hover:text-red-300">
+                <button onClick={() => navigate("/forgetPassword")} type='button' className="text-red-400 hover:text-red-300">
                   Forgot password?
                 </button>
               </div>

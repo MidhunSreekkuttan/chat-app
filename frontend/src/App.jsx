@@ -5,6 +5,7 @@ import Layout from './lib/layout'
 import LoginPage from './pages/LoginPage'
 import ChatPage from './pages/ChatPage'
 import { UserContext } from './lib/UserContext'
+import ForgetPassword from './pages/ForgetPassword'
 
 const App = () => {
 
@@ -32,6 +33,7 @@ const App = () => {
       <Routes>
 
         <Route path='/login' element={<LoginPage />} />
+        <Route path='/forgetPassword' element={<ForgetPassword />} />
 
         <Route element={<Layout />}>
           <Route element={protectedRoute()}>
