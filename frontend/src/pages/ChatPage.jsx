@@ -18,16 +18,20 @@ const ChatPage = () => {
         {/* Left Side */}
         <div className='flex flex-col w-80 h-full bg-slate-800/80 backdrop-blur-sm rounded-l-lg'>
           <ProfileHeader />
-          <ActiveTabSwitch />
+          <ActiveTabSwitch setActiveTab={setActiveTab} activeTab={activeTab} />
 
           <div className='flex-1 overflow-y-auto p-4 space-y-2'>
-            {activeTab === "chats" ? <ChatList /> : <ContactList />}
+            {
+              activeTab === "chats" ?
+                <ChatList seletedUser={seletedUser} setSeletedUser={setSeletedUser} /> :
+                <ContactList seletedUser={seletedUser} setSeletedUser={setSeletedUser} />
+            }
           </div>
         </div>
 
         {/* Right Side */}
         <div className='flex flex-1 flex-col w-full h-full bg-slate-800/50 backdrop-blur-sm rounded-r-lg'>
-          {seletedUser ? <ChatContainer /> : <NoConversationPlaceholder />}
+          {seletedUser ? <ChatContainer seletedUser={seletedUser} /> : <NoConversationPlaceholder />}
         </div>
 
       </div>
