@@ -6,6 +6,7 @@ import ChatHeader from './ChatHeader';
 import NoMessageHistory from './NoMessageHistory';
 import BouncingChatLoading from '../loading-screen/BouncingChatLoading';
 import { UserContext } from '../../lib/UserContext';
+import SendingMsg from './SendingMsg';
 
 const ChatContainer = ({ seletedUser, setSeletedUser }) => {
 
@@ -48,7 +49,7 @@ const ChatContainer = ({ seletedUser, setSeletedUser }) => {
 
       <ChatHeader seletedUser={seletedUser} setSeletedUser={setSeletedUser} />
 
-      <div className='px-6 py-8 overflow-y-auto scrollbar-hide'>
+      <div className='flex-1 px-6 py-8 overflow-y-auto scrollbar-hide'>
         {data?.length > 0 ? (
           <div className='max-w-3xl mx-auto space-y-6'>
             {Array.isArray(data) &&
@@ -111,6 +112,8 @@ const ChatContainer = ({ seletedUser, setSeletedUser }) => {
           </div>
         )}
       </div>
+
+      <SendingMsg selectedUer={seletedUser} />
 
     </>
 
