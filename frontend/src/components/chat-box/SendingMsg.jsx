@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Image as ImageIcon, Send, X } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import axiosInstance from '../../lib/axiosInstance';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SendingMsg = ({ selectedUer }) => {
 
@@ -11,6 +12,7 @@ const SendingMsg = ({ selectedUer }) => {
 
     // Create a reference to the hidden file input
     const inputRef = useRef(null)
+    const queryClient = useQueryClient()
 
     // Handles picking an image and showing a preview
     const handleImageChange = (e) => {
@@ -49,6 +51,9 @@ const SendingMsg = ({ selectedUer }) => {
                 // Clear the input after sending
                 setText("");
                 removeFile()
+
+                //Tell React Query to instantly refresh the chat window!
+                queryClient.invalidateQueries({ queryKey: ["messages", selectedUer] })
             } else {
                 toast.error(data.message)
             }
