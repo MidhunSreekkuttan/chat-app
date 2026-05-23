@@ -31,7 +31,12 @@ const ChatPage = () => {
 
         {/* Right Side */}
         <div className='flex flex-1 flex-col w-full h-full bg-slate-900 backdrop-blur-sm rounded-r-lg'>
-          {seletedUser ? <ChatContainer key={seletedUser._id} seletedUser={seletedUser} /> : <NoConversationPlaceholder />}
+          {
+            seletedUser ?
+              <ChatContainer key={seletedUser._id} seletedUser={seletedUser} setSeletedUser={setSeletedUser} />
+              :
+              <NoConversationPlaceholder />
+          }
         </div>
 
       </div>
