@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import axiosInstance from '../../lib/axiosInstance';
 import toast from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
@@ -11,6 +11,8 @@ import SendingMsg from './SendingMsg';
 const ChatContainer = ({ seletedUser, setSeletedUser }) => {
 
   const { userData, getUserData } = useContext(UserContext)
+
+  const divRef = useRef()
 
   const getMessagesByuserId = useCallback(async () => {
 
@@ -42,6 +44,12 @@ const ChatContainer = ({ seletedUser, setSeletedUser }) => {
   useEffect(() => {
     getUserData()
   }, [getUserData])
+
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [data])
 
   return (
 
@@ -111,6 +119,8 @@ const ChatContainer = ({ seletedUser, setSeletedUser }) => {
 
           </div>
         )}
+
+        <div ref={divRef} />
       </div>
 
       <SendingMsg selectedUer={seletedUser} />
