@@ -23,18 +23,6 @@ app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }))
 app.use("/api/user", userRouter) // api end point for user
 app.use("/api/messages", messageRouter) // api end point for messages
 
-//make ready for deployment
-const __dirname = path.resolve()
-
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../frontend/dist")))
-
-    app.get("*", (_, res) => {
-        res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"))
-    })
-}
-//...........................
-
 await connectDB()
 
 app.listen(PORT, () => {
