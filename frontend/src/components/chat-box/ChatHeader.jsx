@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { XIcon } from 'lucide-react'
 
 const ChatHeader = ({ seletedUser, setSeletedUser }) => {
 
+    useEffect(() => {
+
+        const handleKey = (e) => {
+            if (e.key === "Escape") setSeletedUser(null)
+        }
+
+        window.addEventListener("keydown", handleKey)
+
+        //cleanup function
+
+        return () => window.removeEventListener("keydown", handleKey)
+
+    }, [setSeletedUser])
+
     return (
-        <div className='flex justify-between bg-slate-800/50 border-b border-slate-700/50 max-h-[84px] p-6 flex-1'>
+        <div className='flex justify-between bg-slate-800/50 border-b border-slate-700/50 max-h-[84px] p-6'>
             <div className='flex items-center space-x-3'>
 
                 <div className='Online'>
