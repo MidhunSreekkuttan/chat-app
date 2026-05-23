@@ -38,8 +38,6 @@ const ChatContainer = ({ seletedUser, setSeletedUser }) => {
 
   if (error) return <div>Error:{error.message}</div>
 
-  console.log(userData);
-
   useEffect(() => {
     getUserData()
   }, [getUserData])
@@ -50,7 +48,7 @@ const ChatContainer = ({ seletedUser, setSeletedUser }) => {
 
       <ChatHeader seletedUser={seletedUser} setSeletedUser={setSeletedUser} />
 
-      <div className='px-6 py-8 overflow-y-auto'>
+      <div className='px-6 py-8 overflow-y-auto scrollbar-hide'>
         {data?.length > 0 ? (
           <div className='max-w-3xl mx-auto space-y-6'>
             {Array.isArray(data) &&
