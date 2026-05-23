@@ -45,7 +45,7 @@ const ContactList = ({ setSeletedUser }) => {
               key={item._id || index}
               className='flex items-center gap-5 w-full p-3 hover:bg-slate-700/50
              cursor-pointer transition-colors bg-white/10'
-              onClick={() => setSeletedUser(item?._id)}
+              onClick={() => setSeletedUser(item)}
 
             >
 

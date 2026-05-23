@@ -3,7 +3,7 @@ import ProfileHeader from '../components/ProfileHeader'
 import ActiveTabSwitch from '../components/ActiveTabSwitch'
 import ChatList from '../components/ChatList'
 import ContactList from '../components/ContactList'
-import ChatContainer from '../components/ChatContainer'
+import ChatContainer from '../components/chat-box/ChatContainer'
 import NoConversationPlaceholder from '../components/NoConversationPlaceholder'
 
 const ChatPage = () => {
@@ -23,15 +23,15 @@ const ChatPage = () => {
           <div className='flex-1 overflow-y-auto p-4 space-y-2'>
             {
               activeTab === "chats" ?
-                <ChatList seletedUser={seletedUser} setSeletedUser={setSeletedUser} /> :
-                <ContactList seletedUser={seletedUser} setSeletedUser={setSeletedUser} />
+                <ChatList setSeletedUser={setSeletedUser} /> :
+                <ContactList setSeletedUser={setSeletedUser} />
             }
           </div>
         </div>
 
         {/* Right Side */}
         <div className='flex flex-1 flex-col w-full h-full bg-slate-900 backdrop-blur-sm rounded-r-lg'>
-          {seletedUser ? <ChatContainer key={seletedUser} seletedUser={seletedUser} /> : <NoConversationPlaceholder />}
+          {seletedUser ? <ChatContainer key={seletedUser._id} seletedUser={seletedUser} /> : <NoConversationPlaceholder />}
         </div>
 
       </div>

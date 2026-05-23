@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axiosInstance from '../lib/axiosInstance';
 import { toast } from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 import ChatLoading from './loading-screen/ChatLoading';
 
 const ChatList = ({ setSeletedUser }) => {
+
+  const [selectedUserData, setSeletedUserData] = useState('')
 
   const getChatData = async () => {
     try {
@@ -42,7 +44,7 @@ const ChatList = ({ setSeletedUser }) => {
               key={item._id || index}
               className='flex items-center gap-5 w-full p-3 hover:bg-slate-700/50
              cursor-pointer transition-colors bg-white/10 rounded-lg'
-              onClick={() => setSeletedUser(item?._id)}
+              onClick={() => setSeletedUser(item)}
 
             >
 
