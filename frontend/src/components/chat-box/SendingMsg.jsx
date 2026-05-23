@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Image as ImageIcon, Send, X } from 'lucide-react'
+import { Image as ImageIcon, Loader, Send, X } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import axiosInstance from '../../lib/axiosInstance';
 import { useQueryClient } from '@tanstack/react-query';
@@ -9,6 +9,7 @@ const SendingMsg = ({ selectedUer }) => {
     const [text, setText] = useState("");
     const [imagePreview, setImagePreview] = useState(null);
     const [image, setImage] = useState(null)
+    const [isLoading, setLoading] = useState(false)
 
     // Create a reference to the hidden file input
     const inputRef = useRef(null)
@@ -45,6 +46,7 @@ const SendingMsg = ({ selectedUer }) => {
         }
 
         try {
+            setLoading(true)
 
             const { data } = await axiosInstance.post(`/api/messages/send/${selectedUer?._id}`, formData)
             if (data.success) {
@@ -61,6 +63,9 @@ const SendingMsg = ({ selectedUer }) => {
         } catch (error) {
             console.log(error);
             toast.error(error.message)
+        }
+        finally {
+            setLoading(false)
         }
 
     };
@@ -104,6 +109,7 @@ const SendingMsg = ({ selectedUer }) => {
                             className="hidden"
                             onChange={handleImageChange}
                             ref={inputRef}
+                            disabled={isLoading}
                         />
                     </label>
 
@@ -121,13 +127,17 @@ const SendingMsg = ({ selectedUer }) => {
                     {/* Send Button */}
                     <button
                         type="submit"
-                        disabled={!text.trim() && !imagePreview}
+                        disabled={!text.trim() && !imagePreview, isLoading}
                         className={`p-2.5 rounded-full flex items-center justify-center transition-colors ${text.trim() || imagePreview
                             ? 'bg-blue-600 hover:bg-blue-700 text-white cursor-pointer'
                             : 'bg-slate-700 text-slate-500 cursor-not-allowed'
                             }`}
                     >
-                        <Send size={20} className='ml-0.5' /> {/* ml-0.5 slightly centers the paper airplane visually */}
+                        {isLoading ? (
+                            <Loader className='animate-spin' />
+                        ) : (
+                            <Send size={20} className='ml-0.5' />
+                        )}
                     </button>
 
                 </form>
