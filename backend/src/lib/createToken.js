@@ -8,8 +8,8 @@ export const registrationToken = async (userId, res) => {
 
         res.cookie("userRegistration", token, {
             httpOnly: true,
-            sameSite: "none",
-            secure: process.env.NODE_ENV === "production" ? true : false,
+            sameSite: process.env.MODE === "development" ? "strict" : "none",
+            secure: process.env.MODE === "production" ? true : false,
             maxAge: 5 * 24 * 60 * 60 * 1000
         })
 
@@ -28,8 +28,8 @@ export const loginToken = async (userId, res) => {
 
         res.cookie("userLogin", token, {
             httpOnly: true,
-            sameSite: "none",
-            secure: process.env.NODE_ENV === "production" ? true : false,
+            sameSite: process.env.MODE === "development" ? "strict" : "none",
+            secure: process.env.MODE === "production" ? true : false,
             maxAge: 5 * 24 * 60 * 60 * 1000
         })
 
