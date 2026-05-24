@@ -193,8 +193,9 @@ export const logout = async (_, res) => {
 
         res.clearCookie("userLogin", {
             httpOnly: true,
-            sameSite: true,
-            secure: process.env.NODE_ENV === "production" ? true : false
+            sameSite: process.env.MODE === "development" ? "strict" : "none",
+            secure: process.env.MODE === "production" ? true : false,
+            maxAge: 5 * 24 * 60 * 60 * 1000
         })
 
         res.json({ success: true, message: "User logged Out" })
