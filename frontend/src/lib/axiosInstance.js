@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL,
+    baseURL: import.meta.env.MODE === "development" ? import.meta.env.VITE_BACKEND_URL : "",
     withCredentials: true,
 
     // ADD THESE HEADERS TO FIX THE VERCEL CACHE BUG
