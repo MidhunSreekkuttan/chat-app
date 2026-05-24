@@ -25,8 +25,10 @@ app.use("/api/messages", messageRouter) // api end point for messages
 
 await connectDB()
 
-if (NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production") {
     app.listen(PORT, () => {
         console.log(`server is running on port http://localhost:${PORT}`);
     })
 }
+
+export default app
