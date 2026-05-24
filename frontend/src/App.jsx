@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
-import Layout from './lib/layout'
+import Layout from './lib/Layout'
 import LoginPage from './pages/LoginPage'
 import ChatPage from './pages/ChatPage'
 import { UserContext } from './lib/UserContext'
