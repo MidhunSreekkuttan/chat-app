@@ -11,7 +11,7 @@ const App = () => {
 
   const { authState, isLoading } = useContext(UserContext);
 
-  const protectedRoute = useCallback(() => {
+  const ProtectedRoute = useCallback(() => {
 
     if (isLoading) {
       return <div>Loading...</div>;
@@ -36,7 +36,7 @@ const App = () => {
         <Route path='/forgetPassword' element={<ForgetPassword />} />
 
         <Route element={<Layout />}>
-          <Route element={protectedRoute()}>
+          <Route element={<ProtectedRoute />}>
 
             <Route path='/' element={<ChatPage />} />
 
